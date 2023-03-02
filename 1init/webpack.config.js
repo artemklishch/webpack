@@ -25,13 +25,25 @@ module.exports = {
         //   type: // эта опция для опредления типа модуля
         //   use: // эта опция используется для loaders
         // type: "asset/resource",
-        type: "asset/inline", // не будет создавать отдельный файл с изображением а
+        // type: "asset/inline", // не будет создавать отдельный файл с изображением а
         // поместит изображение непосредственно JS файл в 64 репрезентации,
         // и это значительно увеличит размер JS файла
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024, // 3 kB ; here we changed the default max size value from 8 to 3 kB
+            // if file size is larger then 3 kB it will create the separate file as the 'asset/resource'
+            // module, otherwise it will be the 'asset/inline' module
+          },
+        },
       },
       {
         test: /\.(ttf)$/,
         type: "asset/resource",
+      },
+      {
+        test: /\.txt/,
+        type: "asset/source",
       },
     ],
   },
